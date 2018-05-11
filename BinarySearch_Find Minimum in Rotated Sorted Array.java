@@ -1,9 +1,10 @@
 class Solution {
-    public int findPivot(int[] nums, int leftIndex, int rightIndex)
+    
+public int findPivot(int[] nums, int leftIndex, int rightIndex)
     {
         if (leftIndex > rightIndex)
         {
-            return -1;
+            return 0;
         }
             
         if (leftIndex == rightIndex)
@@ -13,9 +14,9 @@ class Solution {
         
         int midIndex = leftIndex + (rightIndex - leftIndex) / 2;
         
-        if (midIndex < rightIndex && nums[midIndex] < nums[midIndex + 1])
+        if (midIndex < rightIndex && nums[midIndex] > nums[midIndex + 1])
         {
-            return midIndex;
+            return midIndex + 1;
         }
         
         if (leftIndex < midIndex && nums[midIndex - 1] > nums[midIndex])
@@ -23,12 +24,16 @@ class Solution {
             return midIndex;
         }
         
-        
-        findPivot(nums, )
+        if (nums[rightIndex] >= nums[midIndex])
+        {
+            return findPivot(nums, leftIndex, midIndex - 1);
+        }
+    
+        return findPivot(nums, midIndex + 1, rightIndex);
     }
     
     public int findMin(int[] nums)
     {
-        return findPivot(nums, 0, nums.length - 1);
+        return nums[findPivot(nums, 0, nums.length - 1)];
     }
 }
