@@ -1,107 +1,49 @@
 class Solution {
+    
+    public TreeNode findSuccessor(TreeNode root)
+    {
+        TreeNode curNode = root.right;
+        
+        while (curNode != null && curNode.left != null)
+        {
+            curNode = curNode.left;
+        }
+        
+        return curNode;
+    }
+    
     public TreeNode deleteNode(TreeNode root, int key) {
         
-        TreeNode targetNode = null;
-        
-        TreeNode curNode = root;
-        TreeNode prevNode = null;
-        
-        while (curNode != null)
+        if (root == null)
         {
-            if (key > curNode.val)
-            {
-                prevNode = curNode;
-                
-                curNode = curNode.right;
-            }
-            else if (key < curNode.val)
-            {
-                prevNode = curNode;
-                
-                curNode = curNode.left;
-            }
-            else
-            {
-                targetNode = curNode;
-                
-                break;
-            }
+            return null;
         }
         
-        if (targetNode == null)
+        if (key > root.val)
         {
-            return root;
+            root.right = deleteNode(root.right, key);
         }
-        
-        if (targetNode.left == null && targetNode.right == null)
+        else if (key < root.val)
         {
-            if (prevNode != null)
+            root.left = deleteNode(root.left, key);
+        }
+        else
+        {
+            if (root.left == null)
             {
-                if (prevNode.left == targetNode)
-                {
-                    prevNode.left = null;
-                }
-                else if (prevNode.right == targetNode)
-                {
-                    prevNode.right = null;
-                }
-                else
-                {
-                    root = null;
-                }
-            }
-        }
-        else if (targetNode.left != null && targetNode.right != null)    
-        {
-        }
-        
-        /*
-        else if (targetNode.left != null && targetNode.right != null)    
-        {
-            TreeNode interNode = targetNode.right;
-            
-            TreeNode prevInterNode = null;
-                
-            while (interNode.left != null)
-            {
-                prevInterNode = interNode;
-                
-                interNode = interNode.left;
+                return root.right;
             }
             
-            if (interNode != null)
+            if (root.right == null)
             {
-                targetNode.val = interNode.val;
-                
-                if (prevInterNode != null)
-                {
-                    prevInterNode.left = null;
-                }
-                else
-                {
-                    targetNode.right = null;
-                }
+                return root.left;
             }
+            
+            TreeNode successor = findSuccessor(root);
+            root.val = successor.val;
+            root.right = deleteNode(root.right, successor.val);
         }
-        else if (targetNode.left != null || targetNode.right != null)
-        {
-            if (prevNode != null && prevNode.left == targetNode)
-            {
-                prevNode.left = (targetNode.left != null ? targetNode.left : targetNode.right);
-            }
-            else if (prevNode != null && prevNode.right == targetNode)
-            {
-                prevNode.right = (targetNode.left != null ? targetNode.left : targetNode.right);
-            }
-            else if (prevNode == null)
-            {
-                return (targetNode.left != null ? targetNode.left : targetNode.right);
-            }
-        }
-        */
         
         return root;
     }
-  
-
 }
