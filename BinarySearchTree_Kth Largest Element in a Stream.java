@@ -106,44 +106,20 @@ class KthLargest {
     
     public int getKLargest(Node rootNode, int k)
     {
-        System.out.println("getKLargest k=" + k);
+        int m = rootNode.m_right != null ? rootNode.m_right.m_count : 0;
         
-        if (k == 0)
+        if (k == m + 1)
         {
             return rootNode.m_value;
         }
-        
-        if (rootNode.m_right != null && rootNode.m_right.m_count > k)
-        {
-            System.out.println("getKLargest rootNode.m_right.m_value=" + rootNode.m_right.m_value +
-                              " rootNode.m_right.m_count=" + rootNode.m_right.m_count);
             
+        if (k <= m)
+        {
             return getKLargest(rootNode.m_right, k);
         }
-        
-        if (rootNode.m_right != null && rootNode.m_right.m_count <= k)
+        else
         {
-            k = k - rootNode.m_right.m_count;
-
-            if (k == 0)
-            {
-                return getKLargest(rootNode.m_right, k);
-            }
+            return getKLargest(rootNode.m_left, k - m - 1);
         }
-        
-        k = k - 1;
-        
-        if (k == 0)
-        {
-            return getKLargest(rootNode, k);
-        }
-        
-        
-        if (rootNode.m_left != null)
-        {
-            return getKLargest(rootNode.m_left, k);
-        }
-        
-        return -2;
     }
 }
